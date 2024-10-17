@@ -27,12 +27,7 @@ router.post('/login', (req, res, next) => {
             isNotActive(req, res);
         }
         else {
-            if (bcrypt.compareSync(req.body.userPassword, userFound.password)) {
-                userFound(req, userFound, res);
-            }
-            else {
-                badPassword(req, res);
-            }
+            tryConnection(req, userFound, res);
         }
     }
     else {
@@ -82,6 +77,15 @@ router.post('/add', (req, res, next) => {
 });
 
 module.exports = router;
+
+function tryConnection(req, userFound, res) {
+    if (bcrypt.compareSync(req.body.userPassword, userFound.password)) {
+        userFound(req, userFound, res);
+    }
+    else {
+        badPassword(req, res);
+    }
+}
 
 function userFound(req, userFound, res) {
     correctPassword(req);
