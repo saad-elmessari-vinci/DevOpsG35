@@ -35,8 +35,7 @@ router.post('/login', (req, res, next) => {
                 if (userFound.admin) {
                     isAdmin(req, res);
                 } else {
-                    req.session.admin = false;
-                    res.redirect('/members');
+                    isMember(req, res);
                 }
             }
             else {
@@ -91,6 +90,11 @@ router.post('/add', (req, res, next) => {
 });
 
 module.exports = router;
+
+function isMember(req, res) {
+    req.session.admin = false;
+    res.redirect('/members');
+}
 
 function isAdmin(req, res) {
     req.session.admin = true;
