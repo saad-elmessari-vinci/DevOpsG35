@@ -24,14 +24,11 @@ router.post('/login', (req, res, next) => {
     console.log("User found" + JSON.stringify(userFound));
     if (userFound) {
         if (userFound.active == false) {
-            req.session.errors = "Compte désactivé";
-            res.redirect('/users');
+            isNotActive(req, res);
         }
         else {
             if (bcrypt.compareSync(req.body.userPassword, userFound.password)) {
-                console.log("password correct");
-                req.session.login = req.body.userLogin;
-                req.session.connected = true;
+                correctPassword(req);
                 if (userFound.admin) {
                     isAdmin(req, res);
                 } else {
@@ -90,6 +87,17 @@ router.post('/add', (req, res, next) => {
 });
 
 module.exports = router;
+
+function isNotActive(req, res) {
+    req.session.errors = "Compte désactivé";
+    res.redirect('/users');
+}
+
+function correctPassword(req) {
+    console.log("password correct");
+    req.session.login = req.body.userLogin;
+    req.session.connected = true;
+}
 
 function isMember(req, res) {
     req.session.admin = false;
