@@ -34,11 +34,6 @@ router.post('/add', upload.single('imageExoplanet'), function (req, res, next) {
     if (validator.isLength(req.body.uniqueNameExoplanet, { min: 3, max: 100 })) {
         createExoplanet();
     }
-
-
-
-
-    
     else {
         res.redirect('/exoplanets?errors= Le nom d\'une exoplanète doit faire entre 3 et 100 caractères');
     }
