@@ -28,12 +28,7 @@ router.post('/login', (req, res, next) => {
         }
         else {
             if (bcrypt.compareSync(req.body.userPassword, userFound.password)) {
-                correctPassword(req);
-                if (userFound.admin) {
-                    isAdmin(req, res);
-                } else {
-                    isMember(req, res);
-                }
+                userFound(req, userFound, res);
             }
             else {
                 badPassword(req, res);
@@ -87,6 +82,15 @@ router.post('/add', (req, res, next) => {
 });
 
 module.exports = router;
+
+function userFound(req, userFound, res) {
+    correctPassword(req);
+    if (userFound.admin) {
+        isAdmin(req, res);
+    } else {
+        isMember(req, res);
+    }
+}
 
 function isNotActive(req, res) {
     req.session.errors = "Compte désactivé";
