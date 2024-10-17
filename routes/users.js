@@ -41,9 +41,7 @@ router.post('/login', (req, res, next) => {
                 }
             }
             else {
-                console.log("bad password");
-                req.session.errors = "Mot de passe incorrect";
-                res.redirect('/users');
+                badPassword(req, res);
             }
         }
     }
@@ -94,6 +92,12 @@ router.post('/add', (req, res, next) => {
 });
 
 module.exports = router;
+
+function badPassword(req, res) {
+    console.log("bad password");
+    req.session.errors = "Mot de passe incorrect";
+    res.redirect('/users');
+}
 
 function badUser(req, res) {
     console.log("bad user");
