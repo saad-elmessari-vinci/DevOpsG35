@@ -33,8 +33,7 @@ router.post('/login', (req, res, next) => {
                 req.session.login = req.body.userLogin;
                 req.session.connected = true;
                 if (userFound.admin) {
-                    req.session.admin = true;
-                    res.redirect('/admin');
+                    isAdmin(req, res);
                 } else {
                     req.session.admin = false;
                     res.redirect('/members');
@@ -92,6 +91,11 @@ router.post('/add', (req, res, next) => {
 });
 
 module.exports = router;
+
+function isAdmin(req, res) {
+    req.session.admin = true;
+    res.redirect('/admin');
+}
 
 function badPassword(req, res) {
     console.log("bad password");
